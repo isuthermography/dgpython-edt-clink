@@ -1,0 +1,12 @@
+__pycache__
+*.egg-info
+*~
+*.bak
+build
+dist
+dgpython_edt_clink.egg-info
+dgpython_edt_clink/edtcapture.cpp
+setup_local.cfg
+dgpython_edt_clink/_version.py
+
+
