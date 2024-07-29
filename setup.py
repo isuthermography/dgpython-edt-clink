@@ -5,7 +5,12 @@ import shutil
 import glob
 import numpy as np
 from setuptools import setup,Extension
-from setuptools.command.build import build
+try:
+    from setuptools.command.build import build
+    pass
+except ModuleNotFoundError:
+    from distutils.command.build import build
+    pass
 from setuptools.command.install import install
 
 from Cython.Build import cythonize
