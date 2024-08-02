@@ -1,0 +1,43 @@
+from dataguzzler_python import dgpy
+import spatialnde2 as snde
+
+include(dgpy,"dgpy_startup.dpi") # If you get a NameError here, be sure you are executing this file with dataguzzler-python
+
+#include(dgpy,"Qt.dpi",prefer_pyqt=False) 
+
+#include(dgpy,"matplotlib.dpi")
+#include(snde,"recdb.dpi",enable_opencl=True)
+#include(snde,"recdb_gui.dpi")
+
+import dgpython_edt_clink as edt
+
+import time
+
+dgpython_release_main_thread()
+
+cam = edt.EDTCapture("cam",recdb, device, unit, channel )
+
+# Illustration of how to add dynamic metadata:
+#k4a.dynamic_metadata.AddStaticMetaDatum("/k4achan","testmd","testmd_value")
+#k4a.dynamic_metadata.AddDynamicMetaDatum("/k4achan","testmd2",lambda: k4a.depth_mode)
+
+
+
+
+
+#time.sleep(2)
+#monitor = recdb.start_monitoring_globalrevs()
+#monitor.wait_next(recdb) # Ignore any blank initial frame
+
+#for cnt in range(500):
+#    globalrev = monitor.wait_next(recdb)
+#
+#    chan_data = globalrev.get_recording_ref("/k4achan")
+#    print(chan_data.data())
+#    pass
+#monitor.close(recdb) # Stop monitoring. If you fail to do this data will start accumulating and eventually run you out of file descriptors or fill up memory
+
+
+# Some example commands:
+# k4a.camera_fps = ak.K4A_FRAMES_PER_SECOND_15   # (required for WFOV depth mode)
+# k4a.depth_mode = ak.K4A_DEPTH_MODE_WFOV_UNBINNED
