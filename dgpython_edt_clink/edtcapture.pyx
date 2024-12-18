@@ -212,10 +212,9 @@ class EDTCapture(metaclass=dgpy.Module):
         # Transaction required to add a channel
         transact = recdb.start_transaction()
 
-        self._lowlevel.snde_channel = recdb.define_channel(ChannelName,module_name,self)
-
+        self._lowlevel.snde_channel = recdb.reserve_channel(transact,snde.channelconfig(ChannelName,module_name,False)) 
         
-        transact.end_transaction()
+        transact.end_transaction().globalrev_available()
 
         self._AcqControlLock=threading.Lock()
         self._AcqStateCond=threading.Condition(self._AcqControlLock)
@@ -496,12 +495,12 @@ class EDTCapture(metaclass=dgpy.Module):
 
             transact = self.recdb.start_transaction()
             if ImgDepth <= 8:
-                image_recording_ref = snde.create_ndarray_ref(self.recdb,self.result_depth_channel_ptr,self,snde.SNDE_RTN_INT8)
+                image_recording_ref = snde.create_ndarray_ref(transact,self.result_depth_channel_ptr,self,snde.SNDE_RTN_INT8)
                 bytes_per_pixel=1
                 pass
             else:
                 assert(ImgDepth <= 16)
-                image_recording_ref = snde.create_ndarray_ref(self.recdb,self.result_depth_channel_ptr,self,snde.SNDE_RTN_INT16)
+                image_recording_ref = snde.create_ndarray_ref(transact,self.result_depth_channel_ptr,self,snde.SNDE_RTN_INT16)
                 bytes_per_pixel=2
                 pass
             # indicate that we are going to request dynamic meta data
@@ -512,7 +511,7 @@ class EDTCapture(metaclass=dgpy.Module):
 
             image_recording_ref.allocate_storage([ImgWidth,ImgHeight],True) # Fortran mode
 
-            image_recording_data=image_recording_ref.data() #numpy array to store data into
+            image_recording_data=image_recording_ref.data #numpy array to store data into
 
             convert_edt_image(gotbuf,<unsigned char*>image_recording_data.data,bytes_per_pixel, ImgWidth, ImgHeight,<int>self._discardtopline,<int>self.FlipLR, <int>self.FlipUD)
 
