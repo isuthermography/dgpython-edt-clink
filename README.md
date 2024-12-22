@@ -19,10 +19,10 @@ Dataguzzler-Python
 
 To tell the setup script where to find the EDT SDK files,
 you need to either modify setup.cfg configuring the path to the SDK
-in the with-libedt parameter:
+in the with-libpdv parameter:
 
 [build]
-with-libedt=/opt/EDTpdv
+with-libpdv=/opt/EDTpdv
 
 or you can create a new
 setup_local.cfg (similar to setup.cfg) with your path configured.
